@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Appointment App</title>
+</head>
+<body>
+    <form name="appointmentform" onsubmit="saveTocloud(event)">
+        <lable>Name</lable>
+        <input id="name" type="text" name="username" required/>
+        <lable>Emailid</lable>
+        <input id="email" type="email" name="EmailId" required/>
+        <lable>Phone number</lable>
+        <input id="ph-no" type="tel" name="phonenumber" />
+        <button>Submit</button>
+    </form>
+    <ul id="Listofusers"></ul>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.0/axios.min.js"></script>
+    <script>
+        function saveTocloud(event){
+            event.preventDefault();
+            const name=event.target.username.value;
+            const email=event.target.EmailId.value;
+            const phonenumber=event.target.phonenumber.value;
+            const obj={
+                name,
+                email,
+                phonenumber
+            }
+        }
+        window.addEventListener("DOMContentLoaded",()=>{
+            axios.get("https://crudcrud.com/api/e5643cb1782d4d78b5636e9ebab606d0/appointmentdata")
+                .then((response)=>{
+                    console.log(response)
+                    
+                    for (var i=0;i<response.data.length;i++){
+                        shownewuseronscreen(response.data[i]);
+                    }
+                })
+                .catch((err)=>{
+                    console.log(err)
+                })
+        })
+        function shownewuseronscreen(user){
+            document.getElementById('name').value=' ';
+            document.getElementById('email').value=' ';
+            document.getElementById('ph-no').value=' ';
+            parentNode=document.getElementById('listofusers');
+            childHTML=`<li id=${user.email}>${user.name}-${user.email}-${user.phonenumber}
+                <button onClick=deleteuser('${user.email}')>Deleteusers</button>
+                <button onClick=edituserDetails('${user.email}','${user.name}','${user.phonenumber}')>editusers</button>
+            </li>`
+            parentNode.innerHTML=parentNode.innerHTML+childHTMLH
+            document.write(childHTML);
+            document.write(parentNode);
+            edituserDetails(email,name,p);
+        
+        }
+        function edituserDetails(e,n,p){
+            document.getElementById('email').value=e;
+            document.getElementById('name').value=n;
+            document.getElementById('ph-no').value=p;
+            deleteuser(e);
+        }
+        function deleteuser(email){
+            parentNode=document.getElementById('listofusers');
+            childNodetoberemoved=document.getElementById('email');
+            parentNode.removeChild(childNodetoberemoved);
+        }
+    </script>
+</body>
+</html>
